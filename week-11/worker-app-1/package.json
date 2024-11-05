@@ -1,0 +1,22 @@
+{
+  "name": "worker-app-1",
+  "version": "1.0.0",
+  "description": "The goal is to build the backend of a `Blogging Platform`.  It NEEDS to work in a serverless environment (preferably use cloudflare workers)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^5.21.1",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.21.1",
+    "@prisma/extension-accelerate": "^1.2.1",
+    "hono": "^4.6.9",
+    "zod": "^3.23.8"
+  }
+}
