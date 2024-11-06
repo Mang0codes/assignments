@@ -148,7 +148,7 @@ export const getAllUsers = async (c: Context) => {
   try {
     const res = await prisma.user.findMany();
     return c.json({
-      users: res.map((user) => ({
+      users: res.map((user: any) => ({
         id: user.id,
         username: user.username,
         email: user.email,

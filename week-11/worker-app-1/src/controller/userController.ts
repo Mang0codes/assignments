@@ -6,9 +6,7 @@ import { userSigninSchema, userSignupSchema } from "../zod/user";
 
 
 export async function signup(c: Context){
-       const prisma = await PrismaClient({
-        datasourceUrl: c.env.DATABASE_URL, 
-       }).$extends(withAccelerate())
+       const prisma = new PrismaClient().$extends(withAccelerate())
 
        try {
         const body: {
@@ -40,14 +38,14 @@ export async function signup(c: Context){
         });
 
         const userId = response.id;
-        const token = Jwt.sign(userId, c.env.JWT_TOKEN);
+        const token = await Jwt.sign({userId} , c.env.JWT_TOKEN);
 
         return c.json({
             msg: 'User created successfully!!',
             token: token,
             user: {
                 userId: response.id,
-                username: response.name,
+                username: response.username,
                 email: response.email,
             },
         });
@@ -57,7 +55,7 @@ export async function signup(c: Context){
 }
 
 export async function signin(c: Context){
-    const prisma = await PrismaClient({
+    const prisma = new PrismaClient({
         datasourceUrl : c.env.DATABASE_URL
     }).$extends(withAccelerate())
 
@@ -85,7 +83,7 @@ export async function signin(c: Context){
         }
 
         const userId = response.id;
-        const token = Jwt.sign(userId, c.env.JWT_TOKEN);
+        const token = Jwt.sign({userId}, c.env.JWT_TOKEN);
     
             return c.json({
                 msg: "Signed in successfully",
@@ -113,7 +111,7 @@ export async function userProfile(c: Context){
                 id: Number(c.req.param('id')),
             },
             include: {
-                posts: true,
+                post: true,
             },
         });
         if(user == null){
@@ -125,7 +123,7 @@ export async function userProfile(c: Context){
                     id: user.id,
                     username: user.username,
                     email: user.email,
-                    posts: user.posts,
+                    posts: user.post,
                 }
             });
         }
